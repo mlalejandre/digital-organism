@@ -1,0 +1,17 @@
+# Archivos del sistema macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Entornos virtuales de Python y caché
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Backups pesados del agente
+experiment/backups/*.tar.gz
+experiment/backups/pre_*
+experiment/logs/*.jsonl
+experiment/reasoning/*.txt
