@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-desdiferenciar.py - Inductor de Desdiferenciación a Célula Madre (Factores de Yamanaka).
+scripts/desdiferenciar.py - Inductor de Desdiferenciación a Célula Madre (Factores de Yamanaka).
+Archiva el especialista en un .tar.gz y regresa la Célula Madre a la Iteración 0 virginal.
 """
 
 import argparse
@@ -12,7 +13,7 @@ import sys
 import tarfile
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 BODY = ROOT / "body"
 TOOLS_DIR = BODY / "tools"
 TESTS_DIR = TOOLS_DIR / "tests"

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-diferenciar.py - Inductor de Diferenciación Terminal.
-Configura el planner, el estado y lanza el bucle principal.
+scripts/diferenciar.py - Inductor de Diferenciación Terminal (Célula Madre -> Especialista).
+Configura el planner, el estado biológico y arranca el bucle evolutivo.
 """
 
 import sys
@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 import subprocess
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 BODY = ROOT / "body"
 PLANNER = BODY / "planner"
 MEMORY = BODY / "memory"
@@ -100,7 +100,7 @@ def inducir_especializacion(mision: str, especialidad: str):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("Uso: python3 diferenciar.py <nombre_especialidad> <descripcion_mision>")
+        print("Uso: python3 scripts/diferenciar.py <nombre_especialidad> <descripcion_mision>")
         sys.exit(1)
         
     esp = sys.argv[1].strip()

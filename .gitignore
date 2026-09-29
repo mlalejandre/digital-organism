@@ -1,17 +1,34 @@
-# Archivos del sistema macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Entornos virtuales de Python y caché
-.venv/
-venv/
-env/
+# Bytecode de Python y caches
 __pycache__/
 *.py[cod]
+*$py.class
+*.bak
+*.reparar_bak
+*.swp
+*~
 
-# Backups pesados del agente
+# Entornos virtuales
+.venv/
+venv/
+ENV/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs y Telemetría del Experimento
+logs/
+experiment/logs/*
+!experiment/logs/.gitkeep
+experiment/reasoning/*
+!experiment/reasoning/.gitkeep
+experiment/snapshots/
+experiment/autoprompt_history/
+
+# Backups y volcados pesados
 experiment/backups/*.tar.gz
-experiment/backups/pre_*
-experiment/logs/*.jsonl
-experiment/reasoning/*.txt
+!experiment/backups/.gitkeep
+*.tar.gz
+*.lock
+proyecto_completo.txt
+leeme.txt

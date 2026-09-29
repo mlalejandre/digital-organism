@@ -1,30 +1,21 @@
 {
-  "objetivo_primordial": "Célula Madre: Aprendizaje por Internet y Especialización bajo Demanda",
+  "objetivo_primordial": "Organismo Digital: Morfogénesis Autónoma y Computación Determinista",
+  "estado": "tabula_rasa",
   "active_goals": [
     {
-      "id": "STEM_001",
-      "desc": "Mantener operativo el órgano sensorial web (tools/web_search.py)",
-      "status": "completed"
-    },
-    {
-      "id": "STEM_002",
-      "desc": "Orquestar el almacenamiento de conocimiento adquirido mediante tools/knowledge_base.py",
+      "id": "BIO_001",
+      "desc": "Mantener Célula Madre Totipotente lista para recibir directivas",
       "status": "active"
     },
     {
-      "id": "STEM_003",
-      "desc": "Recibir directivas de especialización del usuario en tiempo real",
-      "status": "active"
+      "id": "BIO_002",
+      "desc": "Inducir morfogénesis de órganos y tejidos bajo demanda usando la RTX 4090",
+      "status": "standby"
     },
     {
-      "id": "STEM_004",
-      "desc": "Investigar el dominio solicitado en internet antes de programar herramientas",
-      "status": "active"
-    },
-    {
-      "id": "STEM_005",
-      "desc": "Sintetizar y verificar deterministamente las herramientas del nuevo dominio",
-      "status": "active"
+      "id": "BIO_003",
+      "desc": "Validar herramientas con tests unitarios deterministas (IEEE 754)",
+      "status": "standby"
     }
   ]
 }

@@ -59,7 +59,7 @@ LLM_REPETITION_PENALTY = float(os.getenv("LLM_REPETITION_PENALTY", "1.1"))
 
 REQUEST_TIMEOUT_S = int(os.getenv("REQUEST_TIMEOUT_S", "600"))
 MAX_CONTEXT_TOKENS = int(os.getenv("MAX_CONTEXT_TOKENS", str(REMOTE_CTX)))
-LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "8192"))
+LLM_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "12288"))
 
 # ============================================================
 # PARÁMETROS DEL BUCLE DEL EXPERIMENTO
@@ -84,3 +84,7 @@ EXEC_TIMEOUT_S = int(os.getenv("EXEC_TIMEOUT_S", "60"))
 EXEC_NETWORK = os.getenv("EXEC_NETWORK", "bridge")
 EXEC_OUTPUT_TAIL_CHARS = int(os.getenv("EXEC_OUTPUT_TAIL_CHARS", "4000"))
 AUDIT_LOG_FILE = LOG_DIR / "audit.jsonl"
+
+# Parámetros de seguridad y sandboxing unificado
+EXEC_REQUIRE_DOCKER = os.getenv("EXEC_REQUIRE_DOCKER", "0").strip().lower() in {"1", "true", "yes"}
+EXEC_DOCKER_FALLBACK = os.getenv("EXEC_DOCKER_FALLBACK", "1").strip().lower() in {"1", "true", "yes"}

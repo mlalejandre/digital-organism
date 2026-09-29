@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🧬 Organismo Digital — Motor RTX 4090</title>
+  <style>
+    :root {
+      --bg: #070a12;
+      --card: rgba(15, 23, 42, 0.95);
+      --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --actividad: #10b981;    /* Verde */
+      --aprendiendo: #f59e0b;  /* Amarillo */
+      --reposo: #0f172a;       /* Negro */
+      --fallo: #ef4444;        /* Rojo */
+      --gpu: #38bdf8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    header {
+      padding: 0.9rem 2rem;
+      background: #020617;
+      border-bottom: 2px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .header-title h1 { font-size: 1.3rem; letter-spacing: -0.5px; }
+    .header-title span { font-size: 0.8rem; color: var(--muted); }
+
+    .header-actions { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+    .gpu-badge {
+      background: #000;
+      border: 1px solid #334155;
+      padding: 0.4rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-action {
+      border: none;
+      color: #fff;
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-diag { background: #0369a1; border: 1px solid #38bdf8; }
+    .btn-diag:hover { background: #0284c7; }
+    .btn-remodelar { background: #6d28d9; border: 1px solid #a78bfa; }
+    .btn-remodelar:hover { background: #7c3aed; }
+    .btn-tabula { background: #991b1b; border: 1px solid #f87171; }
+    .btn-tabula:hover { background: #b91c1c; }
+
+    .legend { display: flex; gap: 1rem; font-size: 0.78rem; background: #000; padding: 0.4rem 0.9rem; border-radius: 9999px; border: 1px solid var(--border); }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; vertical-align: middle; }
+    .dot-actividad { background: var(--actividad); box-shadow: 0 0 8px var(--actividad); }
+    .dot-aprendiendo { background: var(--aprendiendo); box-shadow: 0 0 8px var(--aprendiendo); }
+    .dot-reposo { background: #475569; border: 1px solid #64748b; }
+    .dot-fallo { background: var(--fallo); box-shadow: 0 0 8px var(--fallo); }
+
+    .layout { display: grid; grid-template-columns: 500px 1fr; gap: 1.5rem; padding: 1.5rem; flex: 1; }
+    .panel { background: var(--card); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; }
+    .panel-title { padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--border); font-weight: 600; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); }
+    .panel-body { padding: 1.2rem; display: flex; flex-direction: column; gap: 1.1rem; overflow-y: auto; flex: 1; }
+
+    textarea { width: 100%; height: 95px; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 0.75rem; color: #fff; resize: vertical; font-size: 0.88rem; }
+    textarea:focus { outline: none; border-color: #38bdf8; }
+
+    .btn-send { background: #0284c7; color: #fff; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; flex: 1; transition: background 0.2s; }
+    .btn-send:hover { background: #0369a1; }
+    .btn-reset { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: #fff; padding: 0.75rem 1rem; border-radius: 8px; cursor: pointer; }
+
+    /* VISOR LLM STREAMING EN TIEMPO REAL */
+    .visor-container {
+      background: #020617;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .visor-container.streaming {
+      border-color: #38bdf8;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+    }
+    .visor-header {
+      background: #0b1329;
+      padding: 0.45rem 0.8rem;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .visor-tabs { display: flex; gap: 0.3rem; }
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--muted);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+    }
+    .visor-body {
+      padding: 0.75rem;
+      height: 155px;
+      overflow-y: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.76rem;
+      line-height: 1.45;
+      color: #cbd5e1;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .cursor-blink { display: inline-block; width: 6px; height: 12px; background: #38bdf8; margin-left: 2px; animation: blink 0.8s infinite; vertical-align: middle; }
+
+    .output-box { background: #020617; border: 1px solid #1e293b; border-radius: 8px; padding: 0.9rem; min-height: 100px; font-size: 0.84rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
+    .terminal { background: #000; border: 1px solid #1e293b; border-radius: 6px; padding: 0.65rem; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.73rem; height: 130px; overflow-y: auto; display: flex; flex-direction: column-reverse; gap: 0.25rem; }
+
+    .card-node { background: #0b1329; border: 1.5px solid var(--border); border-radius: 10px; padding: 1.1rem; transition: all 0.3s; }
+    .status-actividad { border-color: var(--actividad) !important; box-shadow: 0 0 16px rgba(16, 185, 129, 0.35); animation: pulse 1.6s infinite; }
+    .status-aprendiendo { border-color: var(--aprendiendo) !important; box-shadow: 0 0 16px rgba(245, 158, 11, 0.35); animation: pulse 1.4s infinite; }
+    .status-fallo { border-color: var(--fallo) !important; box-shadow: 0 0 16px rgba(239, 68, 68, 0.4); }
+    .status-reposo { border-color: var(--border) !important; }
+
+    .badge { font-size: 0.7rem; padding: 0.2rem 0.55rem; border-radius: 9999px; font-weight: bold; text-transform: uppercase; }
+    .badge-actividad { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .badge-aprendiendo { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .badge-reposo { background: rgba(100, 116, 139, 0.3); color: #94a3b8; }
+    .badge-fallo { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+    .cell-pill { background: rgba(0,0,0,0.6); border: 1px solid #334155; padding: 0.35rem 0.65rem; border-radius: 6px; font-size: 0.75rem; display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.4rem; }
+
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #0284c7;
+      color: #fff;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1000;
+    }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>🧬 ORGANISMO DIGITAL</h1>
+      <span>Inferencia en RTX 4090 Remota</span>
+    </div>
+
+    <div class="header-actions">
+      <div id="gpu-status" class="gpu-badge">
+        <span id="gpu-dot" class="dot dot-reposo"></span>
+        <span id="gpu-text">RTX 4090: Standby</span>
+      </div>
+      <button class="btn-action btn-remodelar" onclick="remodelarOrganismo()">🧬 Remodelado Tisular</button>
+      <button class="btn-action btn-tabula" onclick="reiniciarTabulaRasa()">🌱 Tabula Rasa</button>
+      <button class="btn-action btn-diag" onclick="copiarDiagnosticoParaChat()">📋 Copiar Diagnóstico</button>
+    </div>
+
+    <div class="legend">
+      <span><span class="dot dot-actividad"></span> Actividad</span>
+      <span><span class="dot dot-aprendiendo"></span> Aprendiendo</span>
+      <span><span class="dot dot-reposo"></span> Reposo</span>
+      <span><span class="dot dot-fallo"></span> Fallo</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panel-title">
+        <span>💬 Entrada del Estímulo</span>
+        <span id="org-badge" class="badge badge-reposo">REPOSO</span>
+      </div>
+      <div class="panel-body">
+        <textarea id="prompt-input" placeholder="Introduce una directiva para que el organismo la resuelva..."></textarea>
+
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn-send" onclick="enviar()">⚡ Enviar a la RTX 4090</button>
+          <button class="btn-reset" onclick="reset()">↺ Reposo</button>
+        </div>
+
+        <!-- VISOR LLM STREAMING EN TIEMPO REAL -->
+        <div id="visor-container" class="visor-container">
+          <div class="visor-header">
+            <div style="display:flex; align-items:center; gap:0.4rem;">
+              <span id="visor-live-dot" class="dot dot-reposo"></span>
+              <strong style="font-size:0.75rem; color:#94a3b8;">Visor LLM en Vivo (RTX 4090)</strong>
+            </div>
+            <div class="visor-tabs">
+              <button id="tab-cot" class="tab-btn active" onclick="setVisorTab('cot')">🧠 Razonamiento</button>
+              <button id="tab-content" class="tab-btn" onclick="setVisorTab('content')">💡 Código / JSON</button>
+            </div>
+          </div>
+          <div id="visor-body" class="visor-body">
+            <span style="color:#64748b; font-style:italic;">Esperando activación de la GPU...</span>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size:0.76rem; font-weight:bold; display:block; margin-bottom:0.25rem;">📋 Respuesta Final Determinista:</label>
+          <div id="output" class="output-box">Esperando estímulo...</div>
+        </div>
+
+        <div>
+          <label style="font-size:0.76rem; font-weight:bold; display:block; margin-bottom:0.25rem;">📡 Telemetría en Vivo:</label>
+          <div id="term" class="terminal"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        <span>🗺️ Anatomía Pluricelular</span>
+      </div>
+      <div class="panel-body" style="gap:1.2rem;">
+        <div id="core" class="card-node status-reposo" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h3>🌐 Núcleo Coordinador del Organismo</h3>
+            <p style="font-size:0.76rem; color:var(--muted); margin-top:0.2rem;">Conectado a Nail-35B en RTX 4090</p>
+          </div>
+          <div style="display:flex; gap:0.6rem; align-items:center;">
+            <div id="stem-cell" class="cell-pill status-reposo">
+              <span>🧬</span> Célula Madre Totipotente
+            </div>
+            <span id="core-badge" class="badge badge-reposo">REPOSO</span>
+          </div>
+        </div>
+
+        <div id="organs-container" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:1.2rem;"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast"></div>
+
+  <script>
+    let activeTab = 'cot';
+    let currentLive = { streaming: false, reasoning: '', content: '' };
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      setTimeout(() => { t.style.display = "none"; }, 3500);
+    }
+
+    function setVisorTab(tab) {
+      activeTab = tab;
+      document.getElementById("tab-cot").className = "tab-btn " + (tab === 'cot' ? 'active' : '');
+      document.getElementById("tab-content").className = "tab-btn " + (tab === 'content' ? 'active' : '');
+      renderVisor();
+    }
+
+    function renderVisor() {
+      const vb = document.getElementById("visor-body");
+      const vc = document.getElementById("visor-container");
+      const dot = document.getElementById("visor-live-dot");
+
+      if (currentLive.streaming) {
+        vc.className = "visor-container streaming";
+        dot.className = "dot dot-actividad";
+      } else {
+        vc.className = "visor-container";
+        dot.className = "dot dot-reposo";
+      }
+
+      const txt = (activeTab === 'cot' ? currentLive.reasoning : currentLive.content) || "";
+      if (!txt && !currentLive.streaming) {
+        vb.innerHTML = '<span style="color:#64748b; font-style:italic;">Esperando activación de la GPU...</span>';
+        return;
+      }
+
+      vb.textContent = txt;
+      if (currentLive.streaming) {
+        const cursor = document.createElement("span");
+        cursor.className = "cursor-blink";
+        vb.appendChild(cursor);
+      }
+      vb.scrollTop = vb.scrollHeight;
+    }
+
+    async function enviar() {
+      const p = document.getElementById("prompt-input").value.trim();
+      if (!p) return;
+      document.getElementById("output").textContent = "🧬 Activando GPU RTX 4090: Consultando modelo Nail-35B...";
+      currentLive = { streaming: true, reasoning: '', content: '' };
+      renderVisor();
+      try {
+        const resp = await fetch("/api/prompt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: p })
+        });
+        if (resp.status === 409) {
+          const errData = await resp.json().catch(() => ({}));
+          showToast("⚠️ " + (errData.error || "El organismo está ocupado."));
+          document.getElementById("output").textContent = "⚠️ Organismo ocupado. Espera a que vuelva a reposo.";
+        }
+      } catch (err) {
+        showToast("❌ Error de red: " + err);
+      }
+    }
+
+    async function reset() { await fetch("/api/reset", { method: "POST" }); }
+
+    async function remodelarOrganismo() {
+      if (!confirm("¿Deseas iniciar el ciclo de Homeostasis y Remodelado Tisular?\n\nLa Célula Madre auditará y fusionará células redundantes manteniendo el Principio de No Regresión Funcional.")) return;
+      showToast("🧬 Iniciando Homeostasis y Poda Tisular...");
+      document.getElementById("output").textContent = "🧬 Ciclo de Homeostasis activo: Auditando y podando en la RTX 4090...";
+      try {
+        const resp = await fetch("/api/remodelar", { method: "POST" });
+        if (resp.status === 409) {
+          const errData = await resp.json().catch(() => ({}));
+          showToast("⚠️ " + (errData.error || "El organismo está ocupado."));
+        }
+      } catch (err) {
+        showToast("❌ Error al solicitar remodelado: " + err);
+      }
+    }
+
+    async function reiniciarTabulaRasa() {
+      if (!confirm("⚠️ ¿REINICIAR A TABULA RASA?\n\nEsta acción purgará todos los órganos, tejidos y células. Se creará un respaldo comprimido (.tar.gz) y el organismo regresará al estado virginal de Célula Madre.\n\n¿Deseas continuar?")) return;
+      showToast("🌱 Ejecutando reseteo a Tabula Rasa...");
+      document.getElementById("output").textContent = "🌱 Reseteando anatomía y memoria a Célula Madre virgen...";
+      try {
+        const resp = await fetch("/api/tabula_rasa", { method: "POST" });
+        if (resp.status === 409) {
+          const errData = await resp.json().catch(() => ({}));
+          showToast("⚠️ " + (errData.error || "El organismo está ocupado."));
+        } else {
+          showToast("✨ Organismo reseteado a Tabula Rasa.");
+        }
+      } catch (err) {
+        showToast("❌ Error al solicitar Tabula Rasa: " + err);
+      }
+    }
+
+    async function copiarDiagnosticoParaChat() {
+      try {
+        const res = await fetch("/api/diagnostico");
+        const diag = await res.json();
+        await navigator.clipboard.writeText("```json\n" + JSON.stringify(diag, null, 2) + "\n```");
+        showToast("✅ Diagnóstico y telemetría copiados al portapapeles.");
+      } catch (e) {
+        alert("Error al copiar diagnóstico: " + e);
+      }
+    }
+
+    function actualizar(data) {
+      if (!data) return;
+
+      const gpuDot = document.getElementById("gpu-dot");
+      const gpuText = document.getElementById("gpu-text");
+      if (data.gpu_online) {
+        gpuDot.className = "dot dot-actividad";
+        gpuText.textContent = "RTX 4090: Online (8087)";
+      } else {
+        gpuDot.className = "dot dot-reposo";
+        gpuText.textContent = "RTX 4090: Standby";
+      }
+
+      const st = data.organismo_estado || "reposo";
+      document.getElementById("core").className = `card-node status-${st}`;
+      document.getElementById("core-badge").className = `badge badge-${st}`;
+      document.getElementById("core-badge").textContent = st;
+
+      document.getElementById("org-badge").className = `badge badge-${st}`;
+      document.getElementById("org-badge").textContent = st;
+
+      const stemSt = data.celula_madre_estado || "reposo";
+      document.getElementById("stem-cell").className = `cell-pill status-${stemSt}`;
+
+      if (data.ultimo_resultado) {
+        document.getElementById("output").textContent = data.ultimo_resultado;
+      }
+
+      // Streaming en vivo en el Visor
+      if (data.llm_live) {
+        currentLive = data.llm_live;
+        if (currentLive.streaming && activeTab === 'cot' && !currentLive.reasoning && currentLive.content) {
+          activeTab = 'content';
+          setVisorTab('content');
+        } else {
+          renderVisor();
+        }
+      }
+
+      document.getElementById("term").innerHTML = (data.eventos || []).map(e => `
+        <div><span style="color:#64748b;">[${e.timestamp}]</span> <strong style="color:#38bdf8;">${e.emisor}:</strong> ${e.mensaje}</div>
+      `).join("");
+
+      const cont = document.getElementById("organs-container");
+      if (!data.organos || data.organos.length === 0) {
+        cont.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:var(--muted); padding:2.5rem; border:1px dashed #334155; border-radius:8px;">
+          🌱 <em>Célula Madre Totipotente en Tabula Rasa. Esperando directivas.</em>
+        </div>`;
+        return;
+      }
+
+      cont.innerHTML = data.organos.map(org => `
+        <div class="card-node status-${org.estado}">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+            <strong>🫀 ${org.nombre}</strong>
+            <span class="badge badge-${org.estado}">${org.estado}</span>
+          </div>
+          <p style="font-size:0.75rem; color:var(--muted); margin-bottom:0.75rem;">${org.sistema}</p>
+
+          <div style="display:flex; flex-direction:column; gap:0.6rem;">
+            ${(org.tejidos || []).map(tej => `
+              <div style="background:rgba(0,0,0,0.3); border:1px solid #334155; border-radius:6px; padding:0.6rem;" class="status-${tej.estado}">
+                <div style="display:flex; justify-content:space-between;">
+                  <span style="font-size:0.8rem; font-weight:bold;">🔬 ${tej.nombre}</span>
+                  <span class="badge badge-${tej.estado}" style="font-size:0.6rem;">${tej.estado}</span>
+                </div>
+                <div>
+                  ${(tej.celulas || []).map(c => `
+                    <div class="cell-pill status-${c.estado}">
+                      <span class="dot dot-${c.estado}"></span>
+                      ${c.nombre}
+                    </div>
+                  `).join("")}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function poll() {
+      try {
+        const res = await fetch("/api/estado");
+        if (res.ok) actualizar(await res.json());
+      } catch (e) {}
+      const intervalo = (currentLive && currentLive.streaming) ? 180 : 400;
+      setTimeout(poll, intervalo);
+    }
+    poll();
+  </script>
+</body>
+</html>

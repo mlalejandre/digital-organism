@@ -1,159 +1,168 @@
-cat << 'EOF' > README.md
-# 🧬 Nail-StemCell — Autonomous AI Stem Cell Architecture
+# 🧬 Organismo Digital — Computación Orgánica y Morfogénesis Autónoma
 
-> **Fase Tres:** De la *Tabula Rasa* al Organismo Digital.  
-> Framework de agentes autónomos auto-evolutivos con diferenciación terminal bajo demanda, testing por invariantes deterministas, aislamiento en Docker y desdiferenciación reversible.
+> **Arquitectura de Agentes IA Pluricelulares con Diferenciación Jerárquica, Sandboxing en Docker y Sistema Inmunológico Adversarial.**
+
+[![Licencia](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![Docker](https://img.shields.io/badge/docker-sandboxed-2496ED)](https://www.docker.com/)
 
 ---
 
-## 🌟 La Visión: Computación Orgánica y Morfogénesis
+## 🌟 La Visión: De la Célula Madre al Organismo Pluricelular
 
 Los sistemas multi-agente tradicionales se enfrentan a un dilema irresoluble:
-1. **El Agente Monolítico:** Trata de abarcarlo todo; colapsa por alucinaciones y saturación de contexto.
-2. **El Enjambre Plano:** Decenas de agentes hablando en un chat común; la comunicación escala a O(N²), devorando tokens en ruido y cortesías.
+1. **El Agente Monolítico:** Trata de abarcarlo todo en un solo contexto; colapsa por alucinaciones y saturación de tokens.
+2. **El Enjambre Plano:** Decenas de agentes conversando en un chat común; la comunicación escala a O(N^2), devorando tokens en ruido y cortesías.
 
-**Nail-StemCell** resuelve este cuello de botella aplicando la solución que la biología descubrió hace mil millones de años: **la pluricelularidad jerárquica y fractal**.
+**Organismo Digital** resuelve este cuello de botella aplicando la solución que la biología descubrió hace mil millones de años: **la pluricelularidad jerárquica y fractal**.
 
-El proyecto no pre-programa agentes para cada tarea: inicia como una **Célula Madre Totipotente** (*tabula rasa*), recibe una directiva de especialización (`diferenciar.py`), investiga la literatura de consenso, programa sus propias herramientas deterministas en Python, las valida en entornos Docker efímeros y sella un contrato MCP (*Model Context Protocol*). 
-
----
-
-## ⚡ Características del Sistema
-
-1. **Diferenciación Terminal Reversible:**
-   - `python3 diferenciar.py <especialidad> <mision>`: Induce la diferenciación hacia cualquier dominio (ej. Nefrología, Farmacocinética, Finanzas Cuantitativas).
-   - `python3 desdiferenciar.py`: Aplica el equivalente digital a los **Factores de Yamanaka**, empaquetando al subagente adulto en un `.tar.gz` reutilizable y devolviendo la memoria y el cuerpo a la Iteración 0 totipotente.
-2. **Interacción en Tiempo Real con el Orquestador:**
-   - `python3 ordenar.py "<caso o tarea>"`: Inyecta casos clínicos o problemas en caliente al subagente sin detener el bucle de ejecución.
-3. **Principio de Primacía de Runtime & Testing por Invariantes:**
-   - Prohíbe taxativamente la aritmética mental flotante dentro del pensamiento.
-   - Python (IEEE 754) es la única fuente de verdad: los tests unitarios validan monotonía (si x sube, y baja), condiciones de borde y rangos plausibles, eliminando falsos positivos por redondeo.
-4. **Ejecutor Seguro en Docker (Músculo Aislado):**
-   - Cada acción EXECUTE corre en un contenedor efímero con red bridge, permisos root (--user 0:0) y soporte para Shebangs universales (python3, bash, node).
-   - Soporta **evaluación inline** (`python3 -c "..."`), evitando la creación innecesaria de archivos temporales.
-5. **Resiliencia Extrema en Inferencia:**
-   - **Ventana de 8.192 tokens:** Espacio holgado para razonamiento profundo (Chain of Thought).
-   - **Auto-reparación de JSON truncado:** Si la generación se corta por tokens al final de un script, el parser cierra comillas y llaves automáticamente y rescata la acción.
-   - **Filtro Anti-Bucles 3x:** Detecta repeticiones patológicas reales sin sabotear la redacción de código.
-   - **Poda de Contexto (_clip):** Evita desbordamientos de buffer HTTP 400 recortando salidas masivas de búsqueda web.
-
----
-
-## 🔄 El Ciclo Vital de Maduración (4 Fases)
+El sistema no pre-programa agentes para cada tarea:
+Inicia como una **Célula Madre Totipotente** en estado de *Tabula Rasa*. Al recibir un estímulo o directiva, ejecuta una **Cascada Cognitiva** que delibera qué macro-órgano y tejido deben actuar. Si no existe una célula especializada competente, la Célula Madre engendra una nueva célula mediante **morfogénesis en caliente**, compila código determinista en Python, lo valida en un contenedor Docker efímero y lo integra en la anatomía viva del organismo.
 
 ```text
-       [ Célula Madre Totipotente ]
-                    │
-           1. INVESTIGAR (web_search / researcher)
-                    │
-           2. MEMORIZAR (knowledge_base)
-                    │
-           3. SINTETIZAR Y VERIFICAR (tools/ + tests/ en Docker)
-                    │
-           4. COMPROMISO TERMINAL (interface_generator -> MCP)
-                    │
-                    ▼
-       [ Subagente Experto Maduro ] ──(desdiferenciar.py)──> [ Retorno a Célula Madre ]
+               [ NÚCLEO: Célula Madre Totipotente ]
+                               │
+               ┌───────────────┴───────────────┐
+               ▼                               ▼
+       [ ÓRGANO: Macro-Dominio ]       [ ÓRGANO: Macro-Dominio ]
+               │                               │
+       ┌───────┴───────┐                       │
+       ▼               ▼                       ▼
+   [ TEJIDO ]      [ TEJIDO ]              [ TEJIDO ]
+       │               │                       │
+   ┌───┴───┐       ┌───┴───┐               ┌───┴───┐
+   ▼       ▼       ▼       ▼               ▼       ▼
+ [CÉLULA][CÉLULA] [CÉLULA][CÉLULA]       [CÉLULA][CÉLULA]
+  (Tools + Tests en Sandbox Docker)       (Tools + Tests en Sandbox Docker)
 ```
 
-1. **INVESTIGAR:** La célula madre usa `tools/web_search.py` y `tools/researcher.py` para descubrir ecuaciones y consensos públicos (máximo 2-3 rondas, anti-parálisis de paywalls).
-2. **MEMORIZAR:** Almacena constantes numéricas y reglas en `memory/knowledge.json`.
-3. **SINTETIZAR Y VERIFICAR:** Programa las herramientas en `tools/` y sus tests en `tools/tests/`. Ejecuta los tests en Docker hasta obtener 100% de éxito.
-4. **COMPROMISO TERMINAL Y CONTRATO:** Genera el contrato `memory/interface.json` (MCP), sobrescribe su identidad permanente en `autoprompt.txt` y actualiza `memory/state.json` a `"fase": "maduro_listo_para_orquestador"`.
+---
+
+## ⚡ Pilares del Sistema
+
+### 1. La Cascada Cognitiva
+Ante cualquier directiva o problema entrante:
+* **El Núcleo** clasifica el macro-dominio y selecciona (o engendra) el **Órgano** correspondiente.
+* **El Órgano** selecciona el **Tejido** funcional idóneo.
+* **El Tejido** evalúa su catálogo de células:
+  * Si una célula existente cubre la operación de forma exacta, **se reutiliza de inmediato**.
+  * Si la tarea es nueva o requiere composición secuencial multietapa, se declara **«Morfogénesis requerida»** y la Célula Madre crea una célula especializada.
+
+### 2. Primacía del Runtime (IEEE 754 vs Alucinación)
+* **Prohibida la aritmética mental:** Los modelos de lenguaje son probabilísticos e imprecisos para el cálculo flotante exacto.
+* **Python es la única fuente de verdad:** Toda operación matemática, científica o cuantitativa se ejecuta mediante scripts en Python con estándar IEEE 754.
+* **Sandboxing Aislado en Docker:** Cada ejecución corre en un contenedor efímero (`nikolaik/python-nodejs`), con sistema de archivos protegido (`--read-only`), límites de memoria (`2g`), CPU (`2.0`) y sin riesgo de contaminar el entorno host.
+
+### 3. Sistema Inmunológico y Homeostasis Tisular
+* **Auditoría Adversarial:** Un sistema de estrés destructivo (*red-teaming*) que examina al organismo en cuatro frentes: Casos Límite, Estrés de Escala, Alta Precisión (8 decimales) y Problemas Compuestos.
+* **Memoria de Antígenos:** Cada fallo detectado en una auditoría se almacena con su contraejemplo exacto.
+* **Poda Tisular Consciente (`/remodelar`):** La Célula Madre audita la anatomía, lee los antígenos y fusiona células redundantes o frágiles en herramientas universales paramétricas, preservando el principio de no regresión funcional.
+
+### 4. Tabula Rasa Reversible
+* El organismo puede ser reseteado en cualquier instante a su estado de **Célula Madre Totipotente virginal**, purgando los tejidos específicos pero conservando intacto su genoma, su servidor y su capacidad de auto-construcción para cualquier nuevo dominio (medicina, finanzas, derecho, ingeniería).
 
 ---
 
 ## 📂 Estructura del Repositorio
 
 ```text
-celula madre/
-├── body/                       # Espacio físico del agente (montado en /body en Docker)
-│   ├── memory/                 # Estado, hipocampo (knowledge.json) y contrato MCP (interface.json)
-│   ├── planner/                # Hojas de ruta y metas activas (goals.json)
-│   ├── tools/                  # Órganos basales e instrumental programado por el agente
-│   │   └── tests/              # Batería de pruebas unitarias deterministas
-│   └── autoprompt.txt          # Genoma del agente (instrucciones evolutivas persistentes)
-├── experiment/                 # Fuera del alcance del agente (auditoría del anfitrión)
-│   ├── backups/                # Archivos biológicos comprimidos (.tar.gz) de subagentes
-│   ├── logs/                   # Historial append-only de iteraciones y auditoría
-│   └── reasoning/              # Trazas de razonamiento CoT guardadas por iteración
-├── src/                        # Motor del bucle evolutivo y cliente LLM
-│   ├── body.py                 # Gestor de sistema de archivos seguro
-│   ├── config.py               # Configuración de red, tokens y rutas
+organismo-digital/
+├── aprendizaje/                # Suite de especialización y estrés adversarial
+│   ├── aprende_matematicas.py  # Currículo progresivo (de fundamentos a doctorado)
+│   ├── auditor_matematico.py   # Auditor adversarial en 4 dimensiones de estrés
+│   └── entrenador_adversarial.py # Entrenador inmunitario de auto-reparación en Docker
+├── body/                       # El cuerpo físico del organismo
+│   ├── memory/                 # Estado biológico, hipocampo y contratos
+│   ├── organos/                # Anatomía pluricelular viva (Órganos ➜ Tejidos ➜ Células)
+│   ├── planner/                # Hojas de ruta primordiales
+│   ├── tools/                  # Órganos basales (búsqueda web, lectura profunda)
+│   └── autoprompt.txt          # Genoma del agente
+├── experiment/                 # Zona de telemetría y auditoría externa del host
+│   ├── backups/                # Respaldos comprimidos (.tar.gz) automáticos
+│   └── reasoning/              # Trazas de razonamiento CoT por iteración
+├── scripts/                    # Operaciones de ciclo vital y mantenimiento
+│   ├── diferenciar.py          # Inductor CLI de especialización
+│   ├── desdiferenciar.py       # Factores de Yamanaka (retorno a Tabula Rasa)
+│   ├── ordenar.py              # Inyector de directivas en tiempo real
+│   └── resetear_organismo.py   # Purgado anatómico completo a Célula Madre
+├── src/                        # Motor cognitivo del organismo
+│   ├── organismo/
+│   │   ├── anatomia.py         # Clases estructurales (Organo, Tejido, Celula)
+│   │   ├── celula_madre.py     # Núcleo totipotente y leyes de síntesis
+│   │   ├── gpu_manager.py      # Conector SSH y control de VRAM
+│   │   ├── motor.py            # Orquestador de cascada cognitiva y homeostasis
+│   │   ├── perfeccionamiento.py# Bucle de auto-reparación en Docker
+│   │   └── servidor.py         # API REST y servidor HTTP integrado
+│   ├── body.py                 # Gestor seguro de archivos
+│   ├── config.py               # Configuración central de rutas y endpoints
 │   ├── executor.py             # Ejecutor Docker multi-lenguaje e inline
-│   ├── llm_client.py           # Cliente HTTP OpenAI-compatible con streaming y CoT
-│   └── main.py                 # Orquestador del bucle iterativo
-├── diferenciar.py              # Inductor de especialización
-├── ordenar.py                  # Inyector de casos/tareas en tiempo real con catálogo de tools
-├── desdiferenciar.py           # Factores de Yamanaka (regreso a célula madre)
+│   ├── llm_client.py           # Cliente LLM con streaming y rescate de acciones
+│   └── main.py                 # Bucle autónomo clásico CLI
+├── web/
+│   └── index.html              # Dashboard visual con telemetría y visor CoT en vivo
+├── exe_servidor.py             # Lanzador del Servidor y Dashboard
+├── exe_estructura.py           # Exportador de estructura para auditorías
+├── exe_limpieza.py             # Limpiador seguro de residuos temporales
 ├── prompt_inmutable.txt        # Ley fundamental y principios cognitivos inviolables
-└── requirements.txt            # Dependencias del anfitrión
+└── requirements.txt            # Dependencias del host
 ```
 
 ---
 
-## 🚀 Requisitos y Puesta en Marcha
+## 🚀 Puesta en Marcha Rápida
 
 ### Requisitos Previos
-- Docker Desktop o daemon compatible (`docker run`).
-- Python 3.10+.
-- Endpoint LLM compatible con OpenAI API (ej. llama-server en local o remoto, vLLM, Ollama o MLX).
+* **Docker Desktop** activo (para el músculo ejecutor aislado).
+* **Python 3.10+**.
+* **Endpoint LLM compatible con OpenAI API:**  
+  Probado y optimizado con `llama-server` corriendo **Nail-Qwen-35B-A3B** (o cualquier modelo abierto como Qwen 2.5 32B/72B, Llama 3 o DeepSeek).
 
-### Instalación Rápida
-
+### 1. Instalación
 ```bash
-# 1. Crear entorno virtual e instalar dependencias
+# Crear entorno virtual e instalar dependencias del host
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 
-# 2. Descargar la imagen de ejecución universal para Docker
+# Descargar la imagen de ejecución universal para Docker
 docker pull nikolaik/python-nodejs:python3.11-nodejs20
 ```
 
+### 2. Iniciar el Organismo Digital
+Inicia el servidor interactivo:
+```bash
+python3 exe_servidor.py
+```
+
+Abre tu navegador en `http://localhost:8888` para interactuar con el **Dashboard visual en vivo**:
+* Envía estímulos o problemas complejos.
+* Observa la cascada cognitiva deliberar en tiempo real.
+* Mira el visor de razonamiento (*Chain-of-Thought*) en streaming directo desde la GPU.
+* Inspecciona la anatomía de órganos, tejidos y células palpitando según su estado biológico (*Reposo, Actividad, Aprendiendo o Fallo*).
+
 ---
 
-## 📖 Guía de Uso
+## 🧪 Pruebas Adversariales y Auto-Evolución
 
-### 1. Inducir la Diferenciación
-Para transformar la célula madre virgen en un especialista:
-
-```bash
-# Ejemplo: Especialización en Nefrología Clínica
-python3 diferenciar.py "nefrologia" "Especialízate en calculadoras clínicas de nefrología para resolver problemas clínicos reales"
-
-# Ejemplo: Especialización en Finanzas Cuantitativas
-python3 diferenciar.py "finanzas_cuantitativas" "Especialízate en cálculo de Black-Scholes, griegas y modelos de Valor en Riesgo (VaR)"
-```
-
-### 2. Enviar Tareas o Casos en Tiempo Real
-Con el bucle corriendo en una terminal, abre otra pestaña para enviar una orden:
+Para evaluar la solidez del organismo frente a trampas numéricas complejas (casos límite, alta precisión a 8 decimales, problemas compuestos de varias etapas):
 
 ```bash
-python3 ordenar.py "Varón de 68 años con insuficiencia cardíaca y furosemida. Na 132, K 5.7, Urea 95, Cr 2.3. Orina: Na 25, K 18, Urea 180, Cr 45, Osm 350. Evalúa CKD-EPI 2021, determina si es prerrenal mediante FEUrea y calcula el TTKG."
-```
+# Ejecutar auditoría adversarial ciega
+python3 aprendizaje/auditor_matematico.py --muestras 1
 
-### 3. Desdiferenciación (Regreso a Célula Madre)
-Cuando desees reutilizar la célula madre para una nueva misión sin perder el trabajo previo:
-
-```bash
-# Detén el bucle (Ctrl + C) y ejecuta:
-python3 desdiferenciar.py
+# Ejecutar el entrenador inmunitario autónomo (auto-reparación guiada)
+python3 aprendizaje/entrenador_adversarial.py
 ```
-- Empaqueta el subagente actual en `experiment/backups/subagente_<especialidad>_<fecha>.tar.gz`.
-- Purga las herramientas especializadas y restaura el estado a la **Iteración 0 totipotente**.
 
 ---
 
 ## 🛡️ Seguridad y Sandboxing
 
-- Cada ejecución se realiza en un contenedor Docker con sistema de archivos de solo lectura (`--read-only`), límite de memoria (`2g`), CPU (`2.0`) y límite de procesos (`--pids-limit 128`).
-- El agente solo tiene acceso de lectura/escritura a la carpeta `/body` montada como volumen.
-- Las acciones sensibles (`DELETE` y `EXECUTE`) se registran en un log de auditoría inmutable (`experiment/logs/audit.jsonl`).
+* **Cero ejecución en el Host:** Ningún código generado por el modelo se ejecuta en tu máquina anfitriona; todo corre dentro de contenedores Docker efímeros creados al vuelo con permisos restringidos (`--read-only`, límites estrictos de CPU y RAM).
+* **Auditoría Inmutable:** Cada llamada a `DELETE` o `EXECUTE` queda asentada en `experiment/logs/audit.jsonl`.
 
 ---
 
 ## 📄 Licencia
 
-Distribuido bajo la Licencia MIT. Consulta el archivo `LICENSE` para más información.
-EOF
+Distribuido bajo la Licencia MIT. Consulta el archivo LICENSE para más información.

@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-ordenar.py - Inyector Universal de Tareas y Casos Clínicos en Tiempo Real.
-Inspecciona body/tools/ e informa al agente del inventario de herramientas disponibles.
+scripts/ordenar.py - Inyector Universal de Tareas y Casos Clínicos en Tiempo Real.
+Inspecciona body/tools/ e informa al subagente del inventario de herramientas disponibles.
 """
 
 import sys
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 BODY = ROOT / "body"
 TOOLS_DIR = BODY / "tools"
 AUTOPROMPT_PATH = BODY / "autoprompt.txt"
@@ -67,7 +67,7 @@ def inyectar_orden(texto_caso: str):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print('Uso: python3 ordenar.py "Descripción de la tarea o caso clínico"')
+        print('Uso: python3 scripts/ordenar.py "Descripción de la tarea o caso clínico"')
         sys.exit(1)
     texto = " ".join(sys.argv[1:]).strip()
     inyectar_orden(texto)

@@ -1,23 +1,8 @@
 {
   "identidad": "celula_madre_totipotente",
-  "fase": "lista_para_diferenciacion",
-  "organo_sensorial": "aprobado",
-  "herramienta_busqueda": "tools/web_search.py",
-  "herramienta_lectura": "tools/web_reader.py",
-  "generador_interfaz": "tools/interface_generator.py",
-  "orquestacion_memoria": "activa",
-  "gestor_conocimiento": "tools/knowledge_base.py",
-  "indexador_memoria": "tools/memory_indexer.py",
+  "fase": "tabula_rasa",
+  "estado": "reposo",
+  "organos_activos": [],
   "iteracion": 0,
-  "herramientas_activas": [
-    "interface_generator.py",
-    "knowledge_base.py",
-    "memory_indexer.py",
-    "researcher.py",
-    "self_healing_loop.py",
-    "utils.py",
-    "verify_all.py",
-    "web_reader.py",
-    "web_search.py"
-  ]
+  "ultima_modificacion": "2026-09-29T20:02:17.381343"
 }

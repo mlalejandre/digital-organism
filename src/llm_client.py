@@ -249,6 +249,7 @@ class LLMClient:
         self,
         system_text: str,
         user_text: str,
+        on_token: Any = None,
     ) -> tuple[str, str, dict[str, Any]]:
 
         use_json_mode = os.getenv("LLM_JSON_MODE", "0").strip().lower() not in {"0", "false", "no"}
@@ -325,6 +326,11 @@ class LLMClient:
 
                 r_text = delta.get("reasoning_content") or delta.get("reasoning") or ""
                 if r_text:
+                    if on_token:
+                        try:
+                            on_token("reasoning", r_text)
+                        except Exception:
+                            pass
                     if not is_thinking:
                         print("\n🧠 [Razonamiento de NAIL (RTX 4090)]:\n", end="", flush=True)
                         is_thinking = True
@@ -338,6 +344,11 @@ class LLMClient:
 
                 c_text = delta.get("content") or ""
                 if c_text:
+                    if on_token:
+                        try:
+                            on_token("content", c_text)
+                        except Exception:
+                            pass
                     if is_thinking and not has_content:
                         print("\n\n💡 [Respuesta final / Acción]:\n", end="", flush=True)
                         is_thinking = False
